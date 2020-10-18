@@ -8,7 +8,7 @@ var margin = {
   top: 50,
   right: 50,
   bottom: 100,
-  left: 100
+  left: 60
 };
 
 var chartWidth = svgWidth - margin.left - margin.right;
@@ -101,26 +101,41 @@ var chartGroup = svg.append("g")
     // ==============================================
     // Add x-axis
     chartGroup.append("g")
+      .classed("xaxis", true)
       .attr("transform", `translate(0, ${chartHeight})`)
       .call(bottomAxis);
 
     // Add y-axis
-    chartGroup.append("g").call(leftAxis);
+    chartGroup.append("g")
+    .classed("yaxis", true)
+    .call(leftAxis);
 
     chartGroup.append("text")
       .attr("text-anchor", "middle")
       .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left + 50)
+      .attr("y", 0 - margin.left + 20)
       .attr("x", 0 - (chartHeight / 2))
-      .attr("dy", "1em")
+      //.attr("dy", "1em")
       .attr("class", "axisText")
-      .text("Lacks Healthcare (%)");
+      .text("Lacks Healthcare (%)")
+      .attr("font-size", "1em")
+      .attr("font-weight", "bold");
 
     chartGroup.append("text")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top - 10})`)
       .attr("class", "axisText")
-      .text("In Poverty (%)");
+      .text("In Poverty (%)")
+      .attr("font-size", "1em")
+      .attr("font-weight", "bold");
+
+    svg.selectAll(".yaxis").select(".tick")
+      .filter(d => d < 6)
+      .remove();
+
+    svg.selectAll(".xaxis").select(".tick")
+      .filter(d => d < 10)
+      .remove();
 
 
  
