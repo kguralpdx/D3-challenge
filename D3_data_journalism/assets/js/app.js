@@ -7,8 +7,8 @@ var svgHeight = 600;
 var margin = {
   top: 50,
   right: 50,
-  bottom: 50,
-  left: 50
+  bottom: 100,
+  left: 100
 };
 
 var chartWidth = svgWidth - margin.left - margin.right;
@@ -47,7 +47,68 @@ var chartGroup = svg.append("g")
     var bottomAxis = d3.axisBottom(xLinearScale);//.tickFormat(d3.timeFormat("%d-%b"));
     var leftAxis = d3.axisLeft(yLinearScale);
 
-    // Step 8: Append the axes to the chartGroup
+    // // Step 8: Append the axes to the chartGroup
+    // // ==============================================
+    // // Add x-axis
+    // chartGroup.append("g")
+    //   .attr("transform", `translate(0, ${chartHeight})`)
+    //   .call(bottomAxis);
+
+    // // Add y-axis
+    // chartGroup.append("g").call(leftAxis);
+
+    //   // Append axes titles
+    // chartGroup.append("text")
+    //   .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top + 20})`)
+    //   .classed("poverty-text text", true)
+    //   .text("In Poverty (%)");
+
+    // chartGroup.append("text")
+    // .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top + 37})`)
+    //   .classed("healthcare-text text", true)
+    //   .text("Lacks Healthcare (%)");
+
+    // append circles
+  
+    let circlesGroup = chartGroup.selectAll("circle")
+      .data(data)
+      .join("circle")
+      .attr("cx", d => xLinearScale(d.poverty))
+      .attr("cy", d => yLinearScale(d.healthcare))
+      .attr("r", "10")
+      .attr("fill", "royalblue")
+      .attr("fill-opacity", "0.4")
+      .attr("stroke-width", "1")
+      .attr("stroke", "midnightblue");
+
+      // d3.select("#scatter")
+      //   .append("svg")
+      //   .attr("height", svgHeight)
+      //   .attr("width", svgWidth);
+
+    let circleText = chartGroup.selectAll('text')
+      .data(data)
+      .join("text")
+      .text(d => d.abbr)
+      .attr("dx", d => xLinearScale(d.poverty))
+      .attr("dy", d => yLinearScale(d.healthcare))
+      .attr("font-family", "arial")
+      .attr("font-size", "10px")
+      .attr("font-weight", 'bold')
+      .attr("fill", "midnightblue")
+      .attr("text-anchor", "middle")
+      .attr("alignment-baseline", "central");
+      
+      //   .attr("x", function (d) {
+      //       return x(d.x);
+      //   })
+      //   .attr("y", function (d) {
+      //       return y(d.y);
+      //   });
+
+          // Create axes labels
+
+        // Step 8: Append the axes to the chartGroup
     // ==============================================
     // Add x-axis
     chartGroup.append("g")
@@ -57,29 +118,18 @@ var chartGroup = svg.append("g")
     // Add y-axis
     chartGroup.append("g").call(leftAxis);
 
-      // Append axes titles
     chartGroup.append("text")
-    .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top + 20})`)
-      .classed("poverty-text text", true)
-      .text("In Poverty (%)");
-
-    chartGroup.append("text")
-    .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top + 37})`)
-      .classed("healthcare-text text", true)
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left + 50)
+      .attr("x", 0 - (chartHeight / 2))
+      .attr("dy", "1em")
+      .attr("class", "axisText")
       .text("Lacks Healthcare (%)");
 
-    // append circles
-    let circlesGroup = chartGroup.selectAll("circle")
-      .data(data)
-      .join("circle")
-      .attr("cx", d => xLinearScale(d.poverty))
-      .attr("cy", d => yLinearScale(d.healthcare))
-      .attr("r", "10")
-      .attr("fill", "skyblue")
-      //.attr("fillOpacity", "0.25")
-      .attr("stroke-width", "1")
-      .attr("stroke", "midnightblue");
-
+    chartGroup.append("text")
+      .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top - 10})`)
+      .attr("class", "axisText")
+      .text("In Poverty (%)");
 
 
  
