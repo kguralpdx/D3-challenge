@@ -5,10 +5,10 @@ var svgHeight = 600;
 
 // Create an object to represent the chart's margins within the SVG container
 var margin = {
-  top: 50,
-  right: 50,
+  top: 20,
+  right: 40,
   bottom: 100,
-  left: 60
+  left: 100
 };
 
 var chartWidth = svgWidth - margin.left - margin.right;
@@ -20,8 +20,33 @@ var svg = d3.select("#scatter")
   .attr("height", svgHeight)
   .attr("width", svgWidth);
 
+// Append an SVG group
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+// Initial Params
+let chosenXAxis = "poverty";
+let chosenYAxis = "healthcare";
+let chosenXAxisEom = chosenXAxis + "Moe";
+console.log(chosenXAxisEom);
+
+// function used for updating x-scale var upon click on axis label
+function xScale(data, chosenXAxis) {
+  // create scales
+  var xLinearScale = d3.scaleLinear()
+    .domain([d3.min(data, d => d[chosenXAxis] - d[chosenXAxis + "Moe"]), 
+      d3.max(data, d => d[chosenXAxis] + d[chosenXAxis + "Moe"])
+    //.domain([d3.min(hairData, d => d[chosenXAxis]) * 0.8,
+     // d3.max(hairData, d => d[chosenXAxis]) * 1.2
+    ])
+    .range([0, chartWidth]);
+
+  return xLinearScale;
+
+}
+
+
+
   
  // Get the data
   d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
