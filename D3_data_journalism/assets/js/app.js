@@ -22,20 +22,20 @@ var svg = d3.select("#scatter")
 
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
- 
- 
- 
+  
  // Get the data
   d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
-    console.log(data);// @TODO: YOUR CODE HERE!
-
-        // Step 5: Create the scales for the chart
+    console.log(data);
+      // Step 5: Create the scales for the chart
       // =================================
     var xLinearScale = d3.scaleLinear()
-      .domain(d3.extent(data, d => d.poverty))
+      // Since there's a margin of error for each poverty percentage, need to subtract that from min poverty and 
+      // add it to max poverty values
+      .domain([d3.min(data, d => d.poverty - d.povertyMoe ), d3.max(data, d => d.poverty + d.povertyMoe )])
+      //.domain(d3.extent(data, d => d.poverty))
       .range([0, chartWidth])
       .nice();
-
+      
     var yLinearScale = d3.scaleLinear()
       .domain(d3.extent(data, d => d.healthcare))
       //.domain([0, d3.max(data, d => d.healthcare)])
@@ -57,7 +57,28 @@ var chartGroup = svg.append("g")
     // Add y-axis
     chartGroup.append("g").call(leftAxis);
 
+      // Append axes titles
+    chartGroup.append("text")
+    .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top + 20})`)
+      .classed("poverty-text text", true)
+      .text("In Poverty (%)");
 
+    chartGroup.append("text")
+    .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top + 37})`)
+      .classed("healthcare-text text", true)
+      .text("Lacks Healthcare (%)");
+
+    // append circles
+    let circlesGroup = chartGroup.selectAll("circle")
+      .data(data)
+      .join("circle")
+      .attr("cx", d => xLinearScale(d.poverty))
+      .attr("cy", d => yLinearScale(d.healthcare))
+      .attr("r", "10")
+      .attr("fill", "skyblue")
+      //.attr("fillOpacity", "0.25")
+      .attr("stroke-width", "1")
+      .attr("stroke", "midnightblue");
 
 
 
