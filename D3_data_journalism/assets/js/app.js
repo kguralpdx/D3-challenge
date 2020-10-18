@@ -1,6 +1,6 @@
  // Set up the SVG area
  // Store the dimensions of the SVG container
-var svgWidth = 1140;
+var svgWidth = 855;
 var svgHeight = 600;
 
 // Create an object to represent the chart's margins within the SVG container
@@ -28,6 +28,39 @@ var chartGroup = svg.append("g")
  // Get the data
   d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
     console.log(data);// @TODO: YOUR CODE HERE!
+
+        // Step 5: Create the scales for the chart
+      // =================================
+    var xLinearScale = d3.scaleLinear()
+      .domain(d3.extent(data, d => d.poverty))
+      .range([0, chartWidth])
+      .nice();
+
+    var yLinearScale = d3.scaleLinear()
+      .domain(d3.extent(data, d => d.healthcare))
+      //.domain([0, d3.max(data, d => d.healthcare)])
+      .range([chartHeight, 0])
+      .nice();
+
+    // Step 7: Create the axes
+    // =================================
+    var bottomAxis = d3.axisBottom(xLinearScale);//.tickFormat(d3.timeFormat("%d-%b"));
+    var leftAxis = d3.axisLeft(yLinearScale);
+
+    // Step 8: Append the axes to the chartGroup
+    // ==============================================
+    // Add x-axis
+    chartGroup.append("g")
+      .attr("transform", `translate(0, ${chartHeight})`)
+      .call(bottomAxis);
+
+    // Add y-axis
+    chartGroup.append("g").call(leftAxis);
+
+
+
+
+
  
   }).catch(error => console.log(error));
 
