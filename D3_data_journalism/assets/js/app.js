@@ -26,6 +26,7 @@ var chartGroup = svg.append("g")
  // Get the data
   d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
     console.log(data);
+
       // Step 5: Create the scales for the chart
       // =================================
     var xLinearScale = d3.scaleLinear()
@@ -37,7 +38,7 @@ var chartGroup = svg.append("g")
       .nice();
       
     var yLinearScale = d3.scaleLinear()
-      .domain(d3.extent(data, d => d.healthcare))
+      .domain(d3.extent(data, d => d.healthcareHigh))
       //.domain([0, d3.max(data, d => d.healthcare)])
       .range([chartHeight, 0])
       .nice();
@@ -81,11 +82,6 @@ var chartGroup = svg.append("g")
       .attr("stroke-width", "1")
       .attr("stroke", "midnightblue");
 
-      // d3.select("#scatter")
-      //   .append("svg")
-      //   .attr("height", svgHeight)
-      //   .attr("width", svgWidth);
-
     let circleText = chartGroup.selectAll('text')
       .data(data)
       .join("text")
@@ -94,19 +90,12 @@ var chartGroup = svg.append("g")
       .attr("dy", d => yLinearScale(d.healthcare))
       .attr("font-family", "arial")
       .attr("font-size", "10px")
-      .attr("font-weight", 'bold')
+      .attr("font-weight", "bold")
       .attr("fill", "midnightblue")
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", "central");
-      
-      //   .attr("x", function (d) {
-      //       return x(d.x);
-      //   })
-      //   .attr("y", function (d) {
-      //       return y(d.y);
-      //   });
-
-          // Create axes labels
+    
+      // Create axes labels
 
         // Step 8: Append the axes to the chartGroup
     // ==============================================
@@ -119,6 +108,7 @@ var chartGroup = svg.append("g")
     chartGroup.append("g").call(leftAxis);
 
     chartGroup.append("text")
+      .attr("text-anchor", "middle")
       .attr("transform", "rotate(-90)")
       .attr("y", 0 - margin.left + 50)
       .attr("x", 0 - (chartHeight / 2))
@@ -127,6 +117,7 @@ var chartGroup = svg.append("g")
       .text("Lacks Healthcare (%)");
 
     chartGroup.append("text")
+      .attr("text-anchor", "middle")
       .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top - 10})`)
       .attr("class", "axisText")
       .text("In Poverty (%)");
