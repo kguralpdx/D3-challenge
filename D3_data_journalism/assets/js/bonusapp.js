@@ -272,10 +272,20 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
         label = renderCircleLabels(label, xLinearScale, chosenXAxis);
 
         // Update tip text
-        if (chosenXAxis === "age") {
-          chosenXAxisBubble = "Age (Median)"
-
+        switch(chosenXAxis) {
+          case 'age':
+            chosenXAxisBubble = "Age (Median)";
+            break;
+          case 'poverty':
+            chosenXAxisBubble = "In Poverty (%)";
+            break;
         }
+        // if (chosenXAxis === "age") {
+        //   chosenXAxisBubble = "Age (Median)"
+        // else if (chosenXAxis === "poverty")
+        //   chosenXAxisBubble = "Age (Median)"
+
+        //}
 
         // updates tooltips with new info
         //circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
