@@ -8,7 +8,7 @@ var margin = {
   top: 20,
   right: 40,
   bottom: 100,
-  left: 100
+  left: 80
 };
 
 var chartWidth = svgWidth - margin.left - margin.right;
