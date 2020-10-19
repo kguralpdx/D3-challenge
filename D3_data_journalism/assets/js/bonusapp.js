@@ -141,7 +141,9 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
     .attr("fill-opacity", "0.4")
     .attr("stroke-width", "1")
     .attr("stroke", "midnightblue")
-    .on('mouseover', tip.show)
+    .on('mouseover', tip
+      .html(d => `${d.state}<br>Poverty: ${d[chosenXAxis]}%<br>Lack Healthcare: ${d[chosenYAxis]}%`)
+      .show)
     .on('mouseout', tip.hide);
 
   // Append state abbreviations to center of circles
@@ -208,7 +210,7 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
     .text("Lacks Healthcare (%)");
 
   // updateToolTip function above csv import
-  circlesGroup = updateToolTip(chosenXAxis, circlesGroup)
+  //circlesGroup = updateToolTip(chosenXAxis, circlesGroup)
 
     // x axis labels event listener
   labelsGroup.selectAll("text")
