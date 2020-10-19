@@ -41,7 +41,13 @@ The only item remaining based on the example we had for how this scatter plot sh
 
 ### Bonus: Impress the Boss
 
-I decided to try doing the gauge chart because I had some time and I wanted to see how to do it. I now know why it was called an *Advanced* challenge. I first went down the path of a *Plotly* gauge chart. It had the right shape but I couldn't find anything about how to add the needle. After much *Google* searching, I came about a few articles about using a pie chart instead. I did find one article that did a good job of breaking it all down except his gauge didn't have as many sections. But most of the code i used was found [here](https://com2m.de/blog/technology/gauge-charts-with-plotly/). That got me most of the way there except the needle wasn't really working as far as I could tell. After adding some *Values* and *Direction* information from [here](https://stackoverflow.com/questions/53211506/calculating-adjusting-the-needle-in-gauge-chart-plotly-js), I was closer but still had the needle barely moving. After thinking it through a bit more, realized that the *wash frequencies* being used were not in degrees, so fixed that by multiplying those by 20 which got the needle pointing to the correct place on the gauge. Searched out a colorscheme for the background colors of each segment and added that. 
+To do the *Bonus* section, I first started with the code I used from the *Core* assignment and saved that to a new file called *bonusapp.js*. This is the file I used for the *Bonus* section, just in case I couldn't get it working but in the process messed up the original *Core* code. So the *app.js* file was not modified or used directly for the *Bonus* section. I did have to add a new `<script>` element to the *index.html* file to use *bonusapp.js* file instead.
+
+With all that set up, I started addiing to the *bonusapp.js* file. I did change the left margin to account for the additional axes title labels. I added parameters to hold informtion about what x or y axis label was selected and the data that goes along with it. Since the data changes are controlled by clicking one of the axes' labels, needed to set those parameters up with initial values so there would be data showing initially. Had to modify the scales calculations to accept the parameters. Started with just working on the x-axis but once I got all the code added and working, I mainly duplicated that for the y-axis changes as well. I did add a *click* event and *transition* code to trigger the circle and axes scale changes and have those changes display visually.
+
+I did run into an issue with circles and the state abbreviations. I could get the circles to transition but the state abbreviations wouldn't move. Resolved that by adding group tags to the SVG container for the circles and the state abbreviations and then adding the circles and text to those.
+
+Next I added the *d3-tip* tooltips to each circle. I did this by adding a `<script>` tag to the *index.html* file for the *d3-tip* library. Then I added some styling to the *d3Style.css* file. After that, I started modifying the code in the *bonusapp.js* file. I added the *tip* function, and a *tooltip* function for what data and how that data would be displayed, and added the `.on('mouseover, )` and `.on(mouseout`) properties to the circles append function. One issue I ran into there was that poverty is a percentage whereas age is a not. But both are on the x-axis and needed to be displayed in tooltip correctly. At first I was going just have the *(%)* shown as part of the label in the tooltip so the number from the data would display just that, a number. But I figured out how to add or remove the *%* depending on which label was clicked.
 
 The end result is below:
 
@@ -50,12 +56,12 @@ The end result is below:
 
 ## Notes
 
-Set Test Subject ID 940 as the default for when the page opens. It's the first one in the list so seemed like the natural choice to use for the default. That way, when the user uses the dropdown list for the first time, all the choices are listed below instead of potentially having to scroll up the list as well.
+The webpage uses the *bonusapp.js* file initially. That contains the *Bonus* section of this challenge but since that's basically embellishment to the *Core* assignment and built from that initial code, the *Core* assignment is part of that. However, should you need to see just the *Core* assignment, you just need to comment out the *bonusapp.js* `<script>` tag in the *index.htmo* file and uncomment out the *app.js* `<script>` tags. This is in the *footer* section of the *index.html* file.
 
-I used *newPlot* for each plot in the *optionChanged* function instead of *restyle*. At first it seemed like *restyle* should be used because the plots already existed. But there wasn't anything to update, the underlying data was changing but none of the attributes were, so *newPlot* seemed like the better route.
+![Images/changing_js_file.png]{Images/changing_js_file.png}
 
-The gauge is rather small on the dashboard but when I tried to make it larger, it didn't display correctly so I just left it as it.
+The *app.js* code may need some refining with the circle text. It works fine but when I started working with the transitions in the *bonusap.js* file, I had to make a few modifications to get that to work.
 
-The style information for the gauge and the `<ul>` tags is in both the *index.html* file and the *style.css* file. I tried to remove them from one or the other and couldn't get the formatting to work so just left them both in place.
+The tooltip hover is a little temperamental. If you hover over the center of the circle it doesn't appear. However, if you hover along the edge of the circle it works just fine.
 
-I'm amazed at how many times I used `console.log()` and the amount of time analyzing results in *Google Inspector*. Both were invaluable for this challenge. Didn't realize how much I was looking at through *Google Inspector* until I was cleaning up my script at the end and having to delete `console.log()` entries over and over again.
+I used the `switch` statement in the update tip text portion of the script. Could've used `If/Else` but it seemed like good option for mulitple options, especially when I was hoping to get all three x and y axes labels working instead of just two each. But it also allowed me to use that statement which I hadn't before so that was good knowledge to utilize.
