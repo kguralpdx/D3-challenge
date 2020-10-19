@@ -39,12 +39,15 @@ let chosenXAxisBubble = "In Poverty (%)"
 function xScale(data, chosenXAxis) {
   // create scales
   var xLinearScale = d3.scaleLinear()
-    .domain([d3.min(data, d => d[chosenXAxis]) * 0.9,// - d[chosenXAxis + "Moe"]), 
-      d3.max(data, d => d[chosenXAxis]) * 1.2 //+ d[chosenXAxis + "Moe"])
+    .domain([d3.min(data, d => d[chosenXAxis] - d[chosenXAxis + "Moe"]), 
+    //.domain([d3.min(data, d => d[chosenXAxis]) * 0.9,// - d[chosenXAxis + "Moe"]), 
+      d3.max(data, d => d[chosenXAxis]+ d[chosenXAxis + "Moe"])
+      //d3.max(data, d => d[chosenXAxis]) * 1.1 //+ d[chosenXAxis + "Moe"])
     //.domain([d3.min(hairData, d => d[chosenXAxis]) * 0.8,
      // d3.max(hairData, d => d[chosenXAxis]) * 1.2
     ])
-    .range([0, chartWidth]);
+    .range([0, chartWidth])
+    .nice();
   return xLinearScale;
   
 }
@@ -71,7 +74,7 @@ function renderCircles(circlesGroup, newXScale, chosenXAxis) {
   return circlesGroup;
 }
 
-// function used for updating circles labels group with a transition to
+// function used for updating circle labels group with a transition to
 // new circles
 function renderCircleLabels(label, newXScale, chosenXAxis) {
 
@@ -139,7 +142,7 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
     .nice();
 
   // Create the initial axes functions
-  var bottomAxis = d3.axisBottom(xLinearScale);//.tickFormat(d3.timeFormat("%d-%b"));
+  var bottomAxis = d3.axisBottom(xLinearScale);
   var leftAxis = d3.axisLeft(yLinearScale);
 
   // Create what appears in tooltip
@@ -175,7 +178,7 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
   // Append state abbreviations to center of circles
   //let circleText = chartGroup.selectAll('text')
   var label = chartGroup.append("g")
-    .attr("font-weight", 700)
+    .attr("font-weight", 800)
     .attr("text-anchor", "middle")
     .selectAll('text')
     .data(data)
@@ -229,6 +232,9 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
     .classed("inactive", true)
     .text("Age (Median)");
 
+  // Create group for two y-axis labels
+  var labelsGroupY = chartGroup.append("g")
+  .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + 20})`);  
   // Add y axis title
   chartGroup.append("text")
     .attr("text-anchor", "middle")
