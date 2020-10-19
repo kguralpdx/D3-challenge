@@ -32,6 +32,7 @@ var chartGroup = svg.append("g")
 // Initial Params
 let chosenXAxis = "poverty";
 let chosenYAxis = "healthcare";
+let chosenXAxisBubble = "In Poverty (%)"
 //let chosenXAxisMoe = chosenXAxis + "Moe";
 
 // function used for updating x-scale var upon click on axis label
@@ -68,6 +69,17 @@ function renderCircles(circlesGroup, newXScale, chosenXAxis) {
     .attr("cx", d => newXScale(d[chosenXAxis]));
 
   return circlesGroup;
+}
+
+// function used for updating circles labels group with a transition to
+// new circles
+function renderCircleLabels(label, newXScale, chosenXAxis) {
+
+  label.transition()
+    .duration(1000)
+    .attr("dx", d => newXScale(d[chosenXAxis]));
+
+  return label;
 }
 
 //tip = d3.tip().attr('class', 'd3-tip').html(function(d) {return d; });
@@ -130,8 +142,16 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
   var bottomAxis = d3.axisBottom(xLinearScale);//.tickFormat(d3.timeFormat("%d-%b"));
   var leftAxis = d3.axisLeft(yLinearScale);
 
+  // Create what appears in tooltip
+  let tooltip = function(d) {
+    return `<strong>${d.state}</strong><br>${chosenXAxisBubble}: 
+      <span style='color:lightsteelblue'>${d[chosenXAxis]}%</span>
+      <br>Lack Healthcare: <span style='color:lightsteelblue'>${d[chosenYAxis]}%</span>`
+  }
+
   // Append initial circles
-  let circlesGroup = chartGroup.selectAll("circle")
+  var circlesGroup = chartGroup.append("g")
+    .selectAll("circle")
     .data(data)
     .join("circle")
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
@@ -142,27 +162,36 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
     .attr("stroke-width", "1")
     .attr("stroke", "midnightblue")
     .on('mouseover', tip
-      .html(d => `<strong>${d.state}</strong><br>Poverty: 
-      <span style='color:lightsteelblue'>${d[chosenXAxis]}%</span>
-      <br>Lack Healthcare: <span style='color:lightsteelblue'>${d[chosenYAxis]}%</span>`)
+      .html(tooltip)
+      // .html(d => `<strong>${d.state}</strong><br>Poverty: 
+      // <span style='color:lightsteelblue'>${d[chosenXAxis]}%</span>
+      // <br>Lack Healthcare: <span style='color:lightsteelblue'>${d[chosenYAxis]}%</span>`)
       .offset([-10, 0])
       .show)
     .on('mouseout', tip.hide);
+  circlesGroup.append("title");
+    //.text(tip);
 
   // Append state abbreviations to center of circles
   //let circleText = chartGroup.selectAll('text')
-  chartGroup.selectAll('text')
+  var label = chartGroup.append("g")
+    .attr("font-weight", 700)
+    .attr("text-anchor", "middle")
+    .selectAll('text')
     .data(data)
     .join("text")
-    .text(d => d.abbr)
+    .attr("id", "stateAbbr")
     .attr("dx", d => xLinearScale(d[chosenXAxis]))
     .attr("dy", d => yLinearScale(d[chosenYAxis]))
     .attr("font-family", "arial")
     .attr("font-size", "10px")
-    .attr("font-weight", "bold")
     .attr("fill", "midnightblue")
-    .attr("text-anchor", "middle")
-    .attr("alignment-baseline", "central");
+    //.attr("text-anchor", "middle")
+    .attr("alignment-baseline", "central")
+    .text(d => d.abbr);
+   // .attr("font-weight", "bold")
+  label.append("title");
+    //.text(tip);
 
   // Append the axes to the chartGroup
   // Add x-axis
@@ -212,6 +241,8 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
     .classed("axisText", true)
     .text("Lacks Healthcare (%)");
 
+
+
   // updateToolTip function above csv import
   //circlesGroup = updateToolTip(chosenXAxis, circlesGroup)
 
@@ -229,7 +260,7 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
 
         // functions here found above csv import
         // updates x scale for new data
-        xLinearScale = xScale(hairData, chosenXAxis);
+        xLinearScale = xScale(data, chosenXAxis);
 
         // updates x axis with transition
         xAxis = renderAxes(xLinearScale, xAxis);
@@ -237,8 +268,17 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
         // updates circles with new x values
         circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis);
 
+        // updates circle labels with new x values
+        label = renderCircleLabels(label, xLinearScale, chosenXAxis);
+
+        // Update tip text
+        if (chosenXAxis === "age") {
+          chosenXAxisBubble = "Age (Median)"
+
+        }
+
         // updates tooltips with new info
-        circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
+        //circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
 
         // changes classes to change bold text
         if (chosenXAxis === "age") {
