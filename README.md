@@ -22,7 +22,6 @@ Using 2014 ACS 1-year estimates data from the U.S Census Bureau and the Behavior
                 * [bonusapp.js](D3_data_journalism/assets/js/bonusapp.js) - this file contains the *Javascript* script that manipulates the *HTML* page; this file is for the **Bonus** part of the challenge
 
 
-
 ## Development and Analysis
 
 ### Core Assignment: D3 Dabbler
@@ -58,7 +57,7 @@ The end result is below:
 
 The webpage uses the *bonusapp.js* file initially. That contains the *Bonus* section of this challenge but since that's basically embellishment to the *Core* assignment and built from that initial code, the *Core* assignment is part of that. However, should you need to see just the *Core* assignment, you just need to comment out the *bonusapp.js* `<script>` tag in the *index.htmo* file and uncomment out the *app.js* `<script>` tags. This is in the *footer* section of the *index.html* file.
 
-![Images/changing_js_file.png]{Images/changing_js_file.png}
+![Images/changing_js_file.PNG](Images/changing_js_file.png)
 
 The *app.js* code may need some refining with the circle text. It works fine but when I started working with the transitions in the *bonusap.js* file, I had to make a few modifications to get that to work.
 
