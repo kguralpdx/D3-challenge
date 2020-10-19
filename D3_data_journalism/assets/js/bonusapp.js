@@ -32,7 +32,8 @@ var chartGroup = svg.append("g")
 // Initial Params
 let chosenXAxis = "poverty";
 let chosenYAxis = "healthcare";
-let chosenXAxisBubble = "In Poverty (%)"
+let chosenXAxisBubble = "In Poverty (%)";
+let chosenYAxisBubble = "Lacks Healthcare";
 //let chosenXAxisMoe = chosenXAxis + "Moe";
 
 // function used for updating x-scale var upon click on x axis label
@@ -194,8 +195,8 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
   // Create what appears in tooltip
   let tooltip = function(d) {
     return `<strong>${d.state}</strong><br>${chosenXAxisBubble}: 
-      <span style='color:lightsteelblue'>${d[chosenXAxis]}%</span>
-      <br>Lack Healthcare: <span style='color:lightsteelblue'>${d[chosenYAxis]}%</span>`
+      <span style='color:lightsteelblue'>${d[chosenXAxis]}</span>
+      <br>${chosenYAxisBubble}: <span style='color:lightsteelblue'>${d[chosenYAxis]}%</span>`
   }
 
   // Append initial circles
@@ -361,15 +362,6 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
             chosenXAxisBubble = "In Poverty (%)";
             break;
         }
-        // if (chosenXAxis === "age") {
-        //   chosenXAxisBubble = "Age (Median)"
-        // else if (chosenXAxis === "poverty")
-        //   chosenXAxisBubble = "Age (Median)"
-
-        //}
-
-        // updates tooltips with new info
-        //circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
 
         // changes classes to change bold text
         if (chosenXAxis === "age") {
@@ -419,10 +411,10 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
       // Update tip text
       switch(chosenYAxis) {
         case 'smokes':
-          chosenYAxisBubble = "Smokes (%)";  
+          chosenYAxisBubble = "Smokes";  
           break;
         case 'healthcare':
-          chosenYAxisBubble = "Lacks Healthcare (%)";
+          chosenYAxisBubble = "Lacks Healthcare";
           console.log(chosenYAxis);
           break;
       }
