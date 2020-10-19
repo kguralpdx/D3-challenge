@@ -56,7 +56,7 @@ function xScale(data, chosenXAxis) {
 function yScale(data, chosenYAxis) {
     // Create y scale function
   var yLinearScale = d3.scaleLinear()
-    .domain(d3.extent(data, d => d[chosenYAxis + "High"]))
+    .domain(d3.extent(data, d => d[chosenYAxis]))
     //.domain([0, d3.max(data, d => d.healthcare)])
     .range([chartHeight, 0])
     .nice();
@@ -401,7 +401,7 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
       // replaces chosenYAxis with value
       chosenYAxis = value;
 
-      // console.log(chosenXAxis)
+      //console.log(chosenYAxis)
 
       // functions here found above csv import
       // updates y scale for new data
@@ -419,10 +419,11 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
       // Update tip text
       switch(chosenYAxis) {
         case 'smokes':
-          chosenYAxisBubble = "Smokes (%)";
+          chosenYAxisBubble = "Smokes (%)";  
           break;
         case 'healthcare':
           chosenYAxisBubble = "Lacks Healthcare (%)";
+          console.log(chosenYAxis);
           break;
       }
       // if (chosenXAxis === "age") {
