@@ -33,9 +33,11 @@ The first task I started with was to get the connection to the data working and 
 
 Next came setting up the scales for both axes. Since I was using poverty for the x-axis and the data contained a margin of error column for poverty, I incorporated that into the calculation of the `.domain` portion of the `scale` function. 
 
+With the axes scales set up, on to the circles and their state abbreviation text. Adding the circles went pretty smoothly but I ran into issues with getting the state abbreviations inside the circles. At first I was getting no state abbreviations at all. Once that was resolved, I couldn't get the text to be centered inside the circles; it was more half in/half out. After doing some *Google* searching, found two properties to do that--`.attr("text-anchor", "middle")` and `.attr("alignment-baseline", "central")`. After I added both of those to the state abbreviation text portion, the state abbreviations were centered inside their respective circles in the scatter plot.
 
-That filled out the `init()` function. So still needed to complete the `optionChanged` function that would run when a new Test Subject ID was selected and would update all the plots with the new Test Subject's data. Mainly just copied all the `init()` function steps with the exception of having to change out the default Test Subject ID functionality. I did start creating this function once I got the dropdown list and Demographic Info sections working to make sure changing the Test Subject ID would update what was on the page.
+Then I added the axes titles and ended up running into a simmiliar issue to the state abbreviations not being centered; the axes titles were not centered along their axes. So I tried using the `text-anchor` property with those as well and that fixed that issue.
 
+The only item remaining based on the example we had for how this scatter plot should look was removing the first tick and label along each axis. I tried several different approaches but found that the only one I could get to actually work like I wanted was to use `.filter` and to manually add what numbers not to show. It's a little clunky but for this particular instance, it worked.
 
 ### Bonus: Impress the Boss
 
