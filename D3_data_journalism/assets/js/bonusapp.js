@@ -142,7 +142,10 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
     .attr("stroke-width", "1")
     .attr("stroke", "midnightblue")
     .on('mouseover', tip
-      .html(d => `${d.state}<br>Poverty: ${d[chosenXAxis]}%<br>Lack Healthcare: ${d[chosenYAxis]}%`)
+      .html(d => `<strong>${d.state}</strong><br>Poverty: 
+      <span style='color:lightsteelblue'>${d[chosenXAxis]}%</span>
+      <br>Lack Healthcare: <span style='color:lightsteelblue'>${d[chosenYAxis]}%</span>`)
+      .offset([-10, 0])
       .show)
     .on('mouseout', tip.hide);
 
