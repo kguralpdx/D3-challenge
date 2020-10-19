@@ -32,8 +32,9 @@ var chartGroup = svg.append("g")
 // Initial Params
 let chosenXAxis = "poverty";
 let chosenYAxis = "healthcare";
-let chosenXAxisBubble = "In Poverty (%)";
+let chosenXAxisBubble = "In Poverty";
 let chosenYAxisBubble = "Lacks Healthcare";
+let chosenXFormat = '%'
 //let chosenXAxisMoe = chosenXAxis + "Moe";
 
 // function used for updating x-scale var upon click on x axis label
@@ -195,7 +196,7 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
   // Create what appears in tooltip
   let tooltip = function(d) {
     return `<strong>${d.state}</strong><br>${chosenXAxisBubble}: 
-      <span style='color:lightsteelblue'>${d[chosenXAxis]}</span>
+      <span style='color:lightsteelblue'>${d[chosenXAxis]}${chosenXFormat}</span>
       <br>${chosenYAxisBubble}: <span style='color:lightsteelblue'>${d[chosenYAxis]}%</span>`
   }
 
@@ -357,9 +358,11 @@ d3.csv("./assets/data/data.csv", d3.autoType).then((data) => {
         switch(chosenXAxis) {
           case 'age':
             chosenXAxisBubble = "Age (Median)";
+            chosenXFormat = "";
             break;
           case 'poverty':
-            chosenXAxisBubble = "In Poverty (%)";
+            chosenXAxisBubble = "In Poverty";
+            chosenXFormat = "%";
             break;
         }
 
