@@ -69,3 +69,5 @@ missing from the smoking data in that field so it would error out. So decided to
 I used the `switch` statement in the update tip text portion of the script. Could've used `If/Else` but it seemed like good choice for mulitple options, especially when I was hoping to get all three x and y axes labels working instead of just two each. But it also allowed me to use that statement which I hadn't before, so that was good knowledge to utilize.
 
 I wasn't able to figure out how to incorporate currency formatting into the tooltip for *Household Income*. I'm guessing there's a way to do it, but I'm suffering from lack of time to track that down.
+
+Had to run this page through *Live Server* in order to host the page locally through my browser.
