@@ -32,13 +32,11 @@ var chartGroup = svg.append("g")
       // Since there's a margin of error for each poverty percentage, need to subtract that from min poverty and 
       // add it to max poverty values
       .domain([d3.min(data, d => d.poverty - d.povertyMoe ), d3.max(data, d => d.poverty + d.povertyMoe )])
-      //.domain(d3.extent(data, d => d.poverty))
       .range([0, chartWidth])
       .nice();
       
     var yLinearScale = d3.scaleLinear()
       .domain(d3.extent(data, d => d.healthcareHigh))
-      //.domain([0, d3.max(data, d => d.healthcare)])
       .range([chartHeight, 0])
       .nice();
 
@@ -47,7 +45,8 @@ var chartGroup = svg.append("g")
     var leftAxis = d3.axisLeft(yLinearScale);
 
     // Append circles
-    let circlesGroup = chartGroup.selectAll("circle")
+    var circlesGroup = chartGroup.append("g")
+      .selectAll("circle")
       .data(data)
       .join("circle")
       .attr("cx", d => xLinearScale(d.poverty))
@@ -57,20 +56,25 @@ var chartGroup = svg.append("g")
       .attr("fill-opacity", "0.4")
       .attr("stroke-width", "1")
       .attr("stroke", "midnightblue");
+    circlesGroup.append("title");
 
     // Append state abbreviations to center of circles
-    let circleText = chartGroup.selectAll('text')
+    var label = chartGroup.append("g")
+      .attr("font-weight", 800)
+      .attr("text-anchor", "middle")
+      .selectAll('text')
       .data(data)
       .join("text")
-      .text(d => d.abbr)
+      .attr("id", "stateAbbr")
       .attr("dx", d => xLinearScale(d.poverty))
       .attr("dy", d => yLinearScale(d.healthcare))
       .attr("font-family", "arial")
       .attr("font-size", "10px")
-      .attr("font-weight", "bold")
       .attr("fill", "midnightblue")
-      .attr("text-anchor", "middle")
-      .attr("alignment-baseline", "central");
+      .attr("alignment-baseline", "central")
+      .text(d => d.abbr);
+
+    label.append("title");
 
     // Append the axes to the chartGroup
     // Add x-axis
@@ -90,7 +94,6 @@ var chartGroup = svg.append("g")
       .attr("transform", "rotate(-90)")
       .attr("y", 0 - margin.left + 20)
       .attr("x", 0 - (chartHeight / 2))
-      //.attr("dy", "1em")
       .attr("class", "axisText")
       .text("Lacks Healthcare (%)")
       .attr("font-size", "1em")

@@ -36,7 +36,9 @@ With the axes scales set up, on to the circles and their state abbreviation text
 
 Then I added the axes titles and ended up running into a simmiliar issue to the state abbreviations not being centered; the axes titles were not centered along their axes. So I tried using the `text-anchor` property with those as well and that fixed that issue.
 
-The only item remaining based on the example we had for how this scatter plot should look was removing the first tick and label along each axis. I tried several different approaches but found that the only one I could get to actually work like I wanted was to use `.filter` and to manually add what numbers not to show. It's a little clunky but for this particular instance, it worked.
+The only item remaining based on the example we had for how this scatter plot should look was removing the first tick and label along each axis. I tried several different approaches but found that the only one I could get to actually work like I wanted was to use `.filter` and to manually add what numbers not to show. It's a little clunky but for this particular instance, it worked. The end result is as follows:
+
+![Images/core.PNG](Images/core.PNG)
 
 ### Bonus: Impress the Boss
 
@@ -50,7 +52,7 @@ Next I added the *d3-tip* tooltips to each circle. I did this by adding a `<scri
 
 The end result is below:
 
-![Images/bb_dashboard.PNG](Images/bb_dashboard.PNG)
+![Images/bonus.PNG](Images/bonus.PNG)
 
 
 ## Notes
@@ -59,8 +61,11 @@ The webpage uses the *bonusapp.js* file initially. That contains the *Bonus* sec
 
 ![Images/changing_js_file.PNG](Images/changing_js_file.png)
 
-The *app.js* code may need some refining with the circle text. It works fine but when I started working with the transitions in the *bonusap.js* file, I had to make a few modifications to get that to work.
-
 The tooltip hover is a little temperamental. If you hover over the center of the circle it doesn't appear. However, if you hover along the edge of the circle it works just fine.
 
+I used *healthcareHigh* in the `.domain` scale setup for the y-axis in the *app.js* file. This put a little extra room on the y-axis. Tried that in the *bonusapp.js* file but there was data 
+missing from the smoking data in that field so it would error out. So decided to use the non-High field in *bonusapp.js* but keep the *healthcareHigh* field in the *app.js* file.
+
 I used the `switch` statement in the update tip text portion of the script. Could've used `If/Else` but it seemed like good option for mulitple options, especially when I was hoping to get all three x and y axes labels working instead of just two each. But it also allowed me to use that statement which I hadn't before so that was good knowledge to utilize.
+
+If there was more time, I would've liked to have done the three x and y axes options.
