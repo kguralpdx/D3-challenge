@@ -48,7 +48,7 @@ With all that set up, I started adding to the *bonusapp.js* file. I did change t
 
 I did run into an issue with circles and the state abbreviations. I could get the circles to transition but the state abbreviations wouldn't move. Resolved that by adding group tags to the SVG container for the circles and the state abbreviations and then adding the circles and text to those.
 
-Next I added the *d3-tip* tooltips to each circle. I did this by adding a `<script>` tag to the *index.html* file for the *d3-tip* library. Then I added some styling to the *d3Style.css* file. After that, I started modifying the code in the *bonusapp.js* file. I added the *tip* function, and a *tooltip* function for what data and how that data would be displayed, and added the `.on('mouseover, )` and `.on(mouseout`) properties to the circles append function. One issue I ran into there was that poverty is a percentage whereas age is a not. But both are on the x-axis and needed to be displayed in the tooltip correctly. At first I was going to just have the *(%)* shown as part of the label in the tooltip so the number from the data would display just that, a number. But I figured out how to add or remove the *%* depending on which label was clicked so I used that approach instead.
+Next I added the *d3-tip* tooltips to each circle. I did this by adding a `<script>` tag to the *index.html* file for the *d3-tip* library. Then I added some styling to the *d3Style.css* file. After that, I started modifying the code in the *bonusapp.js* file. I added the *tip* function, and a *tooltip* function for what data and how that data would be displayed, and added the `.on('mouseover, )` and `.on(mouseout`) properties to the circles append function. One issue I ran into there was that poverty is a percentage whereas age and household income are not. But all three are on the x-axis and needed to be displayed in the tooltip correctly. At first I was going to just have the *(%)* shown as part of the label in the tooltip so the number from the data would display just that, a number. But I figured out how to add or remove the *%* depending on which label was clicked so I used that approach instead.
 
 The end result is below:
 
@@ -68,4 +68,4 @@ missing from the smoking data in that field so it would error out. So decided to
 
 I used the `switch` statement in the update tip text portion of the script. Could've used `If/Else` but it seemed like good choice for mulitple options, especially when I was hoping to get all three x and y axes labels working instead of just two each. But it also allowed me to use that statement which I hadn't before, so that was good knowledge to utilize.
 
-If there was more time, I would've liked to have done the three x and y axes options.
+I wasn't able to figure out how to incorporate currency formatting into the tooltip for *Household Income*. I'm guessing there's a way to do it, but I'm suffering from lack of time to track that down.
